@@ -9,14 +9,6 @@ import shutil
 
 class TestWatcherJob(unittest.TestCase):
 
-    def _run_watcher_with_timeout(self,timeout):
-        start_time = time.time()
-        while time.time() - start_time < timeout:
-            watcher.run_pending()
-            time.sleep(1)
-            with open(self.temp_file3, 'w') as f:
-                f.write('Changed content')
-
     def setUp(self):
             self.temp_dir = tempfile.mkdtemp()
             self.temp_file1 = os.path.join(self.temp_dir, 'temp_file1.txt')
@@ -39,6 +31,14 @@ class TestWatcherJob(unittest.TestCase):
     def job_exist(self):
         self.file_exist = True
 
+    def _run_watcher_with_timeout(self,timeout):
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            watcher.run_pending()
+            time.sleep(1)
+            with open(self.temp_file3, 'w') as f:
+                f.write('Changed content')
+                
     def tearDown(self):
         shutil.rmtree(self.temp_dir)
 
